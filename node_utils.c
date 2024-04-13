@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:41:20 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 18:54:22 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 18:54:54 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ int	ft_find_place(t_node *node, int content)
 	int		nb_tour;
 
 	current = node;
+	// compte le push de a vers b
 	nb_tour = 1;
 	ft_printf("Looking for = %d\n", content);
+	// ft_printf("Previous = %d\n", ft_get_last_content(node));
+	// ft_printf("Current = %d\n===\n", current->content);
 	if (content == current->content)
 		return (nb_tour);
 	if (content < ft_get_last_content(node) && content > current->content)
@@ -86,15 +89,21 @@ int	ft_find_place(t_node *node, int content)
 	ft_printf("nb_rotate = %d\n", nb_tour - 1);
 	while (current->next != NULL)
 	{
+		// ft_printf("nb tour = %d + 1\nPrevious = %d\n", nb_tour - 1, current->content);
+		// ft_printf("Current = %d\n===\n", current->next->content);
 		if (content == current->content)
 			break;
 		if (content < current->content && content > current->next->content)
 			break;
 		current = current->next;
 		nb_tour++;
+		ft_printf("nb_rotate = %d\n", nb_tour - 1);
 	}
 	if (nb_tour - 1 > ft_nodesize(node)/2)
+	{
+		ft_printf("%d tours en reverse = %d tours\n",nb_tour, nb_tour - ft_nodesize(node)/2);
 		nb_tour = nb_tour - ft_nodesize(node)/2;
+	}
 	return (nb_tour);
 }
 
