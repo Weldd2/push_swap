@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:08:56 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 18:53:25 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 20:01:38 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,33 @@ void sort_3(t_node **node) {
 	}
 }
 
-int	ft_find_cheapest_number(t_node **a, __attribute__((unused))t_node **b)
+int	ft_find_cheapest_number(t_node **a, t_node **b)
 {
 	t_node	*current_a;
-	// t_node	*current_b;
+	int		index_a;
+	int		max;
 	int		min_tour;
+	int		content_min_tour;
+	int		nb_tour;
 
 	current_a = *a;
-	// current_b = *b;
-	min_tour = 1;
-
-	min_tour = ft_find_place(*b, current_a->content);
-	ft_printf("nombre de tours requis : %d (%d rotate + 1 push)\n===\n", min_tour, min_tour - 1);
-	while (current_a->next != NULL)
+	index_a = 0;
+	max = ft_get_max_content(*b);
+	while (current_a != NULL)
 	{
+		if (current_a->content > max)
+			nb_tour = ft_abs(ft_find_max(*b, max)) + index_a;
+		else
+			nb_tour = ft_abs(ft_find_place(*b, current_a->content)) + index_a;
+		if (index_a == 0 || nb_tour < min_tour)
+		{
+			min_tour = nb_tour;
+			content_min_tour = current_a->content;
+		}
 		current_a = current_a->next;
-		min_tour = ft_find_place(*b, current_a->content);
-		ft_printf("nombre de tours requis : %d (%d rotate + 1 push)\n===\n", min_tour, min_tour - 1);
+		index_a++;
 	}
+	ft_printf("Le plus petit nombre de rotate est %d pour le nombre %d\n", min_tour, content_min_tour);
 	return (-1);
 }
 

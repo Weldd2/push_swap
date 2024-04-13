@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:41:20 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 18:54:54 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 19:48:50 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,41 +70,58 @@ int	ft_get_max_content(t_node *node)
 	return (max_content);
 }
 
+int	ft_find_max(t_node *node, int max)
+{
+	t_node	*current;
+	int		nb_rotate;
+
+	current = node;
+	nb_rotate = 0;
+	while (current->next != NULL)
+	{
+		if (current->content == max)
+		{
+			current = current->next;
+			while (current != NULL && current->content == max)
+			{
+				current = current->next;
+				nb_rotate++;
+			}
+			if (nb_rotate > ft_nodesize(node)/2)
+				nb_rotate = (nb_rotate - ft_nodesize(node)/2)* -1;
+			return (nb_rotate);
+		}
+		current = current->next;
+		nb_rotate++;
+	}
+	return (nb_rotate);
+}
+
 int	ft_find_place(t_node *node, int content)
 {
 	t_node	*current;
-	int		nb_tour;
+	int		nb_rotate;
 
 	current = node;
-	// compte le push de a vers b
-	nb_tour = 1;
-	ft_printf("Looking for = %d\n", content);
-	// ft_printf("Previous = %d\n", ft_get_last_content(node));
-	// ft_printf("Current = %d\n===\n", current->content);
+	nb_rotate = 0;
 	if (content == current->content)
-		return (nb_tour);
+		return (nb_rotate);
 	if (content < ft_get_last_content(node) && content > current->content)
-		return (nb_tour);
-	nb_tour++;
-	ft_printf("nb_rotate = %d\n", nb_tour - 1);
+		return (nb_rotate);
+	nb_rotate++;
 	while (current->next != NULL)
 	{
-		// ft_printf("nb tour = %d + 1\nPrevious = %d\n", nb_tour - 1, current->content);
-		// ft_printf("Current = %d\n===\n", current->next->content);
 		if (content == current->content)
 			break;
 		if (content < current->content && content > current->next->content)
 			break;
 		current = current->next;
-		nb_tour++;
-		ft_printf("nb_rotate = %d\n", nb_tour - 1);
+		nb_rotate++;
 	}
-	if (nb_tour - 1 > ft_nodesize(node)/2)
-	{
-		ft_printf("%d tours en reverse = %d tours\n",nb_tour, nb_tour - ft_nodesize(node)/2);
-		nb_tour = nb_tour - ft_nodesize(node)/2;
-	}
-	return (nb_tour);
+	// find if rrotate is better than rotate
+	if (nb_rotate > ft_nodesize(node)/2)
+		nb_rotate = (nb_rotate - ft_nodesize(node)/2)* -1;
+	return (nb_rotate);
 }
 
 void	ft_print_ab(t_node *a, t_node *b)

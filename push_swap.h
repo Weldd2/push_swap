@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 09:19:07 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 17:48:38 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 19:42:41 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ int		ft_is_sorted(t_node *node);
 int		ft_get_last_content(t_node *node);
 int		ft_get_max_content(t_node *node);
 int		ft_find_place(t_node *node, int content);
+int		ft_find_max(t_node *node, int max);
+int		ft_abs(int val);
 
 #endif
