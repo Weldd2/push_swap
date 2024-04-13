@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:08:56 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 20:01:38 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 20:07:06 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ int	ft_find_cheapest_number(t_node **a, t_node **b)
 		current_a = current_a->next;
 		index_a++;
 	}
-	ft_printf("Le plus petit nombre de rotate est %d pour le nombre %d\n", min_tour, content_min_tour);
-	return (-1);
+	ft_printf("Le plus petit nombre de rotate est %d pour le nombre %d.\n", min_tour, content_min_tour);
+
+	
+	return (min_tour);
 }
 
 
