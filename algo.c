@@ -6,85 +6,66 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:08:56 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/07 00:30:24 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 18:53:25 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_sorted(t_node *a)
-{
-	t_node	*current;
-
-	if (a == NULL)
-		return (0);
-	current = a;
-	while (current != NULL)
+void sort_3(t_node **node) {
+	t_node *current;
+	
+	current = *node;
+	while (!(current->content < current->next->content && current->next->content < current->next->next->content))
 	{
-		if (current->next && current->content > current->next->content)
-			return (0);
-		current = current->next;
+		current = *node;
+		if (current->content > current->next->content && current->next->content > current->next->next->content)
+			rotate_a(node);
+		else if (current->content < current->next->content && current->next->content > current->next->next->content)
+			rrotate_a(node);
+		else if (current->content > current->next->content && current->content > current->next->next->content)
+			rotate_a(node);
+		else if (current->content > current->next->content && current->content < current->next->next->content)
+			swap_a(node);
+		else if (current->content < current->next->content && current->content > current->next->next->content)
+			rrotate_a(node);
+		current = *node;
 	}
-	return (1);
 }
 
-static int max_number(t_node *a)
+int	ft_find_cheapest_number(t_node **a, __attribute__((unused))t_node **b)
 {
-	int max;
+	t_node	*current_a;
+	// t_node	*current_b;
+	int		min_tour;
 
-	max = a->content;
-	while (a)
+	current_a = *a;
+	// current_b = *b;
+	min_tour = 1;
+
+	min_tour = ft_find_place(*b, current_a->content);
+	ft_printf("nombre de tours requis : %d (%d rotate + 1 push)\n===\n", min_tour, min_tour - 1);
+	while (current_a->next != NULL)
 	{
-		if (a->content > max)
-			max = a->content;
-		a = a->next;
+		current_a = current_a->next;
+		min_tour = ft_find_place(*b, current_a->content);
+		ft_printf("nombre de tours requis : %d (%d rotate + 1 push)\n===\n", min_tour, min_tour - 1);
 	}
-	return (max);
-}
-
-// Cette fonction calcule le nombre de bits nécessaires pour représenter le nombre maximum.
-static int max_bits(int max_num)
-{
-	int bits;
-
-	bits = 0;
-	while ((max_num >> bits) != 0)
-		bits++;
-	return (bits);
-}
-
-// Implémentation de l'algorithme Radix Sort.
-void radix_sort(t_node **a, t_node **b)
-{
-	int max_num = max_number(*a);
-	int bits = max_bits(max_num);
-	int size;
-	int i, j;
-
-	size = ft_nodesize(*a);
-	for (i = 0; i < bits; i++) {
-		int rotation_count = 0;
-		for (j = 0; j < size; j++) {
-			if ((((*a)->content >> i) & 1) == 0) {
-				push_b(b, a);
-			} else {
-				rotate_a(a);
-				rotation_count++;
-			}
-		}
-		while (rotation_count-- > 0)
-			rrotate_a(a);
-		while (*b != NULL)
-			push_a(a, b);
-	}
+	return (-1);
 }
 
 
-
-
-// Assurez-vous d'ajouter radix_sort à la fonction algo.
-void algo(t_node **a, t_node **b)
+void	algo(t_node **a, __attribute__((unused))t_node **b)
 {
-	if (!is_sorted(*a))
-		radix_sort(a, b);
+	// ft_print_ab(*a, *b);
+	// push_b(b, a);
+	// ft_print_ab(*a, *b);
+	push_b(b, a);
+	push_b(b, a);
+	push_b(b, a);
+	push_b(b, a);
+	
+	ft_print_ab(*a, *b);
+	ft_find_cheapest_number(a, b);
+	// sort_3(a);
 }

@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:41:20 by antoinemura       #+#    #+#             */
-/*   Updated: 2023/12/29 18:45:15 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 18:54:22 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,77 @@ void	ft_printnode(t_node *lst)
 		current = current->next;
 	}
 	return ;
+}
+
+int	ft_is_sorted(t_node *node)
+{
+	t_node	*current;
+
+	current = node;
+	while (current != NULL)
+	{
+		if (current->next != NULL)
+		{
+			if (current->next->content < current->content)
+				return (0);
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
+int	ft_get_last_content(t_node *node)
+{
+	t_node	*current;
+
+	current = node;
+	while (current->next != NULL)
+		current = current->next;
+	return (current->content);
+}
+
+int	ft_get_max_content(t_node *node)
+{
+	t_node	*current;
+	int		max_content;
+
+	current = node;
+	max_content = -1;
+	while (current->next != NULL)
+	{
+		if (current->content > max_content)
+			max_content = current->content;
+		current = current->next;
+	}
+	return (max_content);
+}
+
+int	ft_find_place(t_node *node, int content)
+{
+	t_node	*current;
+	int		nb_tour;
+
+	current = node;
+	nb_tour = 1;
+	ft_printf("Looking for = %d\n", content);
+	if (content == current->content)
+		return (nb_tour);
+	if (content < ft_get_last_content(node) && content > current->content)
+		return (nb_tour);
+	nb_tour++;
+	ft_printf("nb_rotate = %d\n", nb_tour - 1);
+	while (current->next != NULL)
+	{
+		if (content == current->content)
+			break;
+		if (content < current->content && content > current->next->content)
+			break;
+		current = current->next;
+		nb_tour++;
+	}
+	if (nb_tour - 1 > ft_nodesize(node)/2)
+		nb_tour = nb_tour - ft_nodesize(node)/2;
+	return (nb_tour);
 }
 
 void	ft_print_ab(t_node *a, t_node *b)

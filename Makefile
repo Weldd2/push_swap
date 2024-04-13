@@ -23,3 +23,4 @@ re: fclean
 	$(MAKE) all
 	$(MAKE) clean
 	clear
+	./push_swap 2 5 7 1 6 3 9

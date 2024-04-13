@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 09:19:07 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/07 00:18:09 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/13 17:48:38 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	ft_printnode(t_node *lst);
 int		ft_nodesize(t_node *lst);
 void	ft_print_ab(t_node *a, t_node *b);
 void	algo(t_node **a, t_node **b);
-int		is_sorted(t_node *a);
+int		ft_is_sorted(t_node *node);
+int		ft_get_last_content(t_node *node);
+int		ft_get_max_content(t_node *node);
+int		ft_find_place(t_node *node, int content);
 
 #endif
