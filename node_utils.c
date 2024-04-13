@@ -6,7 +6,7 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:41:20 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 19:48:50 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/04/14 00:08:09 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,23 @@ int	ft_get_max_content(t_node *node)
 	return (max_content);
 }
 
-int	ft_find_max(t_node *node, int max)
+int	ft_reverse_rotate(t_node *node, int nb_rotate)
 {
-	t_node	*current;
-	int		nb_rotate;
+	if (nb_rotate > ft_nodesize(node)/2)
+		nb_rotate = (nb_rotate - ft_nodesize(node)/2)* -1;
+	return (nb_rotate);
+}
+
+t_min_ope	ft_count_max_move(t_node *node, int max, int content, int index)
+{
+	t_node		*current;
+	t_min_ope	min_ope;
 
 	current = node;
-	nb_rotate = 0;
+	min_ope.raw = 0;
+	min_ope.content = content;
+	min_ope.min = 0;
+	min_ope.raw = 0;
 	while (current->next != NULL)
 	{
 		if (current->content == max)
@@ -85,30 +95,31 @@ int	ft_find_max(t_node *node, int max)
 			while (current != NULL && current->content == max)
 			{
 				current = current->next;
-				nb_rotate++;
+				min_ope.raw++;
 			}
-			if (nb_rotate > ft_nodesize(node)/2)
-				nb_rotate = (nb_rotate - ft_nodesize(node)/2)* -1;
-			return (nb_rotate);
+			min_ope.raw = ft_reverse_rotate(node, min_ope.raw);
+			return (min_ope.min = abs(min_ope.raw) + index, min_ope);
 		}
 		current = current->next;
-		nb_rotate++;
+		min_ope.raw++;
 	}
-	return (nb_rotate);
+	return (min_ope);
 }
 
-int	ft_find_place(t_node *node, int content)
+t_min_ope	ft_count_move(t_node *node, int content, int index)
 {
-	t_node	*current;
-	int		nb_rotate;
+	t_min_ope	min_ope;
+	t_node		*current;
 
 	current = node;
-	nb_rotate = 0;
+	min_ope.content = content;
+	min_ope.min = 0;
+	min_ope.raw = 0;
 	if (content == current->content)
-		return (nb_rotate);
+		return (min_ope);
 	if (content < ft_get_last_content(node) && content > current->content)
-		return (nb_rotate);
-	nb_rotate++;
+		return (min_ope);
+	min_ope.raw++;
 	while (current->next != NULL)
 	{
 		if (content == current->content)
@@ -116,12 +127,10 @@ int	ft_find_place(t_node *node, int content)
 		if (content < current->content && content > current->next->content)
 			break;
 		current = current->next;
-		nb_rotate++;
+		min_ope.raw++;
 	}
-	// find if rrotate is better than rotate
-	if (nb_rotate > ft_nodesize(node)/2)
-		nb_rotate = (nb_rotate - ft_nodesize(node)/2)* -1;
-	return (nb_rotate);
+	min_ope.raw = ft_reverse_rotate(node, min_ope.raw);
+	return (min_ope.min = abs(min_ope.raw) + index, min_ope);
 }
 
 void	ft_print_ab(t_node *a, t_node *b)
