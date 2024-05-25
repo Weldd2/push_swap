@@ -1,0 +1,6 @@
+*.a
+*.o
+a.out
+*.json
+.DS_Store
+.vscode/

@@ -6,14 +6,13 @@
 /*   By: antoinemura <antoinemura@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 09:19:07 by antoinemura       #+#    #+#             */
-/*   Updated: 2024/04/13 23:54:40 by antoinemura      ###   ########.fr       */
+/*   Updated: 2024/05/25 16:00:22 by antoinemura      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "libft/ft_printf.h"
 # include "libft/libft.h"
 
 typedef struct s_node
@@ -27,7 +26,6 @@ typedef struct s_min_operation {
 	int	min;
 	int	raw;
 }	t_min_ope;
-
 
 void		swap_a(t_node **a);
 void		swap_b(t_node **b);
@@ -48,8 +46,10 @@ void		algo(t_node **a, t_node **b);
 int			ft_is_sorted(t_node *node);
 int			ft_get_last_content(t_node *node);
 int			ft_get_max_content(t_node *node);
+int			ft_get_min_content(t_node *node);
 t_min_ope	ft_count_move(t_node *node, int content, int index);
 t_min_ope	ft_count_max_move(t_node *node, int max, int content, int index);
+t_min_ope	ft_count_min_move(t_node *node, int min, int content, int index);
 int			ft_abs(int val);
 
 #endif
